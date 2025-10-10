@@ -8,6 +8,7 @@
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/custom-style.css') }}">
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -56,6 +57,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
+            <img src="{{ asset('assets/images/images..png') }}" alt="Logo">
             <a class="navbar-brand" href="#">My Laravel App</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,7 +85,7 @@
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="container">
-            <h1 class="display-6 mb-2">{{ $username }}!</h1>
+            <h1 class="display-6 mb-2 font-baru">{{ $username }}!</h1>
             <p class="lead mb-0">{{ $last_login }}</p>
         </div>
     </section>
@@ -144,18 +146,16 @@
                             <span class="badge text-bg-danger">Bootstrap</span>
                         </div>
                         <ul class="list-group mb-3">
-                            <ul class="list-group mb-3">
-                                @foreach ($list_pendidikan as $item)
-                                    <li class="list-group-item">{{ $item }}</li>
-                                @endforeach
-
-                            </ul>
-                            <div class="p-3 border rounded">
-                                <strong>Div umum</strong> — ini hanya <em>container</em> untuk konten bebas.
-                            </div>
-                            <p class="text-muted small mt-3 mb-0">
-                                Gunakan <code>.card</code> untuk konten yang butuh border & sedikit efek shadow.
-                            </p>
+                            @foreach ($list_pendidikan as $item)
+                                <li class="list-group-item">{{ $item }}</li>
+                            @endforeach
+                        </ul>
+                        <div class="p-3 border rounded">
+                            <strong>Div umum</strong> — ini hanya <em>container</em> untuk konten bebas.
+                        </div>
+                        <p class="text-muted small mt-3 mb-0">
+                            Gunakan <code>.card</code> untuk konten yang butuh border & sedikit efek shadow.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -164,28 +164,38 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Form Pertanyaan</h5>
-                       @if ($errors->any())
-                       <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                        <>{{ $error}}</</li>
-                    @endforeach
-                </ul>
-                       </div>
-                       @endif
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                            {{-- Session Info--}}
+                        @if (session('info'))
+                            <div class="alert alert-info">
+                                {!! session('info') !!}
+                            </div>
+                        @endif
+
+                        {{-- Form P ertanyaan --}}
                         <form action="{{ route('question.store') }}" method="POST">
                             @csrf
                             <div class="mb-3">
                                 <label for="nama" class="form-label">Nama</label>
-                                <input type="text" class="form-control" nama = "nama">
+                                <input type="text" class="form-control" name="nama" value="{{ old('nama') }}">
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="text" class="form-control" email = "email">
+                                <input type="text" class="form-control"name="email" value="{{ old('email') }}">
                             </div>
                             <div class="mb-3">
                                 <label for="pertanyaan" class="form-label">Pertanyaan</label>
-                                <textarea class="form-control"pertanyaan = "pertanyaan" rows="4"></textarea>
+                                <textarea class="form-control" rows="4" name="pertanyaan">{{ old('pertanyaan') }}</textarea>
                             </div>
                             <button type="submit" class="btn btn-primary">Kirim Pertanyaan</button>
                         </form>
@@ -253,7 +263,8 @@
                             </table>
                         </div>
                         <p class="text-muted small mb-0">Tambahkan <code>.table-striped</code> atau
-                            <code>.table-bordered</code> sesuai kebutuhan.</p>
+                            <code>.table-bordered</code> sesuai kebutuhan.
+                        </p>
                     </div>
                 </div>
             </div>
