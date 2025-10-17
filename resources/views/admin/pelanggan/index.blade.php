@@ -1,29 +1,22 @@
 <!--
 
-
 =========================================================
 * Volt Pro - Premium Bootstrap 5 Dashboard
 =========================================================
-
 
 * Product Page: https://themesberg.com/product/admin-dashboard/volt-bootstrap-5-dashboard
 * Copyright 2021 Themesberg (https://www.themesberg.com)
 * License (https://themesberg.com/licensing)
 
-
 * Designed and coded by https://themesberg.com
-
 
 =========================================================
 
-
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. Please contact us to request a removal.
-
 
 -->
 <!DOCTYPE html>
 <html lang="en">
-
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -32,7 +25,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="title" content="Volt - Free Bootstrap 5 Dashboard">
     <meta name="author" content="Themesberg">
-
 
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('assets-admin/img/favicon/apple-touch-icon.png') }}">
@@ -45,13 +37,10 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="theme-color" content="#ffffff">
 
-
     <!-- Volt CSS -->
     <link type="text/css" href="{{ asset('assets-admin/css/volt.css') }}" rel="stylesheet">
 
-
 </head>
-
 
 <body>
     <nav class="navbar navbar-dark navbar-theme-primary px-4 col-12 d-lg-none">
@@ -67,7 +56,6 @@
             </button>
         </div>
     </nav>
-
 
     <nav id="sidebarMenu" class="sidebar d-lg-block bg-gray-800 text-white collapse" data-simplebar>
         <div class="sidebar-inner px-4 pt-3">
@@ -142,7 +130,6 @@
                     </a>
                 </li>
 
-
                 <li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
                 <li class="nav-item">
                     <a href="https://themesberg.com/docs/volt-bootstrap-5-dashboard/getting-started/quick-start/"
@@ -177,9 +164,7 @@
         </div>
     </nav>
 
-
     <main class="content">
-
 
         <nav class="navbar navbar-top navbar-expand navbar-dashboard navbar-dark ps-0 pe-2 pb-0">
             <div class="container-fluid px-0">
@@ -346,7 +331,6 @@
             </div>
         </nav>
 
-
         <div class="py-4">
             <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
                 <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
@@ -370,12 +354,10 @@
                 </div>
                 <div>
                     <a href="{{ route('pelanggan.create') }}" class="btn btn-success text-white"><i
-                            class="far fa-question-circle me-1"></i>
-                        Tambah Pelanggan</a>
+                            class="far fa-question-circle me-1"></i> Tambah Pelanggan</a>
                 </div>
             </div>
         </div>
-
 
         <div class="row">
             <div class="col-12 mb-4">
@@ -397,14 +379,14 @@
                                 <tbody>
                                     @foreach ($dataPelanggan as $item)
                                         <tr>
-                                            <td>{{ $item->first_name }}</td>
+                                            <td>{{ $item->firstname }}</td>
                                             <td>{{ $item->last_name }}</td>
-                                            <td>{{ $item->birthday }}</td>
+                                            <td>{{ $item->birhday }}</td>
                                             <td>{{ $item->gender }}</td>
                                             <td>{{ $item->email }}</td>
                                             <td>{{ $item->phone }}</td>
-                                            <td>
-                                                <a href="{{route('pelanggan.edit', $item->pelanggan_id)}}" class="btn btn-info btn-sm">
+                                            <td><a href="{{ route('pelanggan.edit', $item->pelanggan_id) }}"
+                                                    class="btn btn-info btn-sm">
                                                     <svg class="icon icon-xs me-2" data-slot="icon" fill="none"
                                                         stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24"
                                                         xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -414,9 +396,24 @@
                                                     </svg>
                                                     Edit
                                                 </a>
+                                                <form action="{{route('pelanggan.destroy', $item->pelanggan_id)}}" method="POST" style="display:inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm">
+                                                        <svg class="icon icon-xs me-2" data-slot="icon"
+                                                            fill="none" stroke-width="1.5" stroke="currentColor"
+                                                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                                                            aria-hidden="true">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0">
+                                                            </path>
+                                                        </svg>
+                                                        Hapus
+                                                    </button>
+                                                </form>
+                                            </td>
                                         </tr>
                                     @endforeach
-
 
                                 </tbody>
                             </table>
@@ -425,7 +422,6 @@
                 </div>
             </div>
         </div>
-
 
         <footer class="bg-white rounded shadow p-5 mb-4 mt-4">
             <div class="row">
@@ -455,15 +451,12 @@
         </footer>
     </main>
 
-
     <!-- Core -->
     <script src="{{ asset('assets-admin/vendor/@popperjs/core/dist/umd/popper.min.js') }}"></script>
     <script src="{{ asset('assets-admin/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 
-
     <!-- Volt JS -->
     <script src="{{ asset('assets-admin/js/volt.js') }}"></script>
 </body>
-
 
 </html>
