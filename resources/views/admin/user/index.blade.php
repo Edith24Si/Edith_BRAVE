@@ -15,17 +15,17 @@
                         </svg>
                     </a>
                 </li>
-                <li class="breadcrumb-item"><a href="#">Pelanggan</a></li>
+                <li class="breadcrumb-item"><a href="#">user</a></li>
             </ol>
         </nav>
         <div class="d-flex justify-content-between w-100 flex-wrap">
             <div class="mb-3 mb-lg-0">
-                <h1 class="h4">Data Pelanggan</h1>
-                <p class="mb-0">List data seluruh pelanggan</p>
+                <h1 class="h4">Data user</h1>
+                <p class="mb-0">List data seluruh user</p>
             </div>
             <div>
-                <a href="{{ route('pelanggan.create') }}" class="btn btn-success text-white"><i
-                        class="far fa-question-circle me-1"></i> Tambah Pelanggan</a>
+                <a href="{{ route('user.create') }}" class="btn btn-success text-white"><i
+                        class="far fa-question-circle me-1"></i> Tambah user</a>
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@
             <div class="card border-0 shadow mb-4">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="table-pelanggan" class="table table-centered table-nowrap mb-0 rounded">
+                        <table id="table-user" class="table table-centered table-nowrap mb-0 rounded">
                             <thead class="thead-light">
                                 <tr>
                                     <th class="border-0">Nama Lengkap</th>
@@ -71,7 +71,7 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm"
-                                                    onclick="return confirm('Are you sure you want to delete this pelanggan?')">
+                                                    onclick="return confirm('Are you sure you want to delete this user?')">
                                                     <svg class="icon icon-xs me-2" data-slot="icon" fill="none"
                                                         stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24"
                                                         xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
