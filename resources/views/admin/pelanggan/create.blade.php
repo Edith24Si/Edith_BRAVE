@@ -344,7 +344,7 @@
                                     <!-- First Name -->
                                     <div class="mb-3">
                                         <label for="first_name" class="form-label">First name</label>
-                                        <input type="text" name ="first_name" class="form-control" required>
+                                        <input type="text" name ="first_name" class="form-control"value="{{ $dataPelanggan->first_name }}" required>
                                     </div>
 
 
@@ -353,7 +353,7 @@
                                     <!-- Last Name -->
                                     <div class="mb-3">
                                         <label for="last_name" class="form-label">Last name</label>
-                                        <input type="text" name="last_name" class="form-control" required>
+                                        <input type="text" name="last_name" class="form-control" value="{{ $dataPelanggan->last_name }}" required>
                                     </div>
                                 </div>
 
@@ -364,7 +364,7 @@
                                     <!-- Birthday -->
                                     <div class="mb-3">
                                         <label for="birthday" class="form-label">Birthday</label>
-                                        <input type="date" name="birthday" class="form-control">
+                                        <input type="date" name="birthday" class="form-control"value="{{ $dataPelanggan->birthday }}"> required>
                                     </div>
 
 
@@ -374,9 +374,9 @@
                                     <div class="mb-3">
                                         <label for="gender" class="form-label">Gender</label>
                                         <select id="gender" name="gender" class="form-select">
-                                            <option value="">-- Pilih --</option>
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
+                                           <option selected>Gender</option>
+                                            <option value="Male" {{$dataPelanggan->gender == 'Male' ? 'selected' : ''}}>Male</option>
+                                            <option value="Female" {{$dataPelanggan->gender == 'Female' ? 'selected' : ''}}>Female</option>
                                             <option value="Other">Other</option>
                                         </select>
                                     </div>
@@ -389,7 +389,7 @@
                                     <!-- Email -->
                                     <div class="mb-3">
                                         <label for="email" class="form-label">Email</label>
-                                        <input type="text" name="email" id="email" class="form-control" required>
+                                        <input type="text" name="email" id="email" class="form-control" value="{{ $dataPelanggan->email }}" required>
                                     </div>
 
 
@@ -398,7 +398,7 @@
                                     <!-- Phone -->
                                     <div class="mb-3">
                                         <label for="phone" class="form-label">Phone</label>
-                                        <input type="text" name="phone" class="form-control">
+                                        <input type="text" name="phone" class="form-control"> value="{{ $dataPelanggan->phone }}" required>
                                     </div>
 
 
