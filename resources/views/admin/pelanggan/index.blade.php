@@ -50,9 +50,9 @@
                                 <tbody>
                                     @foreach ($dataPelanggan as $item)
                                         <tr>
-                                            <td>{{ $item->firstname }}</td>
+                                            <td>{{ $item->first_name }}</td>
                                             <td>{{ $item->last_name }}</td>
-                                            <td>{{ $item->birhday }}</td>
+                                            <td>{{ $item->birthday }}</td>
                                             <td>{{ $item->gender }}</td>
                                             <td>{{ $item->email }}</td>
                                             <td>{{ $item->phone }}</td>
