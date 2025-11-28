@@ -16,7 +16,6 @@ class Pelanggan extends Model
         'email',
         'phone',
     ];
-
     public function scopeFilter(Builder $query, $request, array $filterableColumns): Builder
     {
         foreach ($filterableColumns as $column) {
@@ -26,7 +25,6 @@ class Pelanggan extends Model
         }
         return $query;
     }
-
     public function scopeSearch($query, $request, array $columns)
     {
         if ($request->filled('search')) {

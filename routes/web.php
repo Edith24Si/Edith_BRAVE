@@ -9,6 +9,11 @@ use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\MultipleUploadController;
+use App\Http\Controllers\ProductController;
+
+
+
 
 
 Route::get('/', function () {
@@ -53,3 +58,12 @@ Route::get('dashboard', [DashboardController::class,'index'])
  Route::resource('pelanggan', PelangganController::class);
 
  Route::resource('user', UserController::class);
+
+// Routes untuk Multiple Upload pada Pelanggan
+Route::post('/pelanggan/upload', [MultipleUploadController::class, 'store'])->name('pelanggan.upload');
+Route::delete('/pelanggan/delete-file/{id}', [MultipleUploadController::class, 'destroy'])->name('pelanggan.deleteFile');
+
+// Routes lainnya
+Route::resource('products', ProductController::class);
+
+

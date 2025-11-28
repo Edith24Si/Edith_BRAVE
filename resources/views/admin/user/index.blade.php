@@ -1,7 +1,8 @@
 @extends('layouts.admin.app')
 
+
 @section('content')
-    {{-- start main content --}}
+    {{-- START MAIN CONTENT --}}
     <div class="py-4">
         <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
             <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
@@ -15,81 +16,192 @@
                         </svg>
                     </a>
                 </li>
-                <li class="breadcrumb-item"><a href="#">user</a></li>
+                <li class="breadcrumb-item"><a href="#">User</a></li>
             </ol>
         </nav>
         <div class="d-flex justify-content-between w-100 flex-wrap">
             <div class="mb-3 mb-lg-0">
-                <h1 class="h4">Data user</h1>
+                <h1 class="h4">Data User</h1>
                 <p class="mb-0">List data seluruh user</p>
             </div>
             <div>
-                <a href="{{ route('user.create') }}" class="btn btn-success text-white"><i
-                        class="far fa-question-circle me-1"></i> Tambah user</a>
+                <a href="{{ route('user.create') }}" class="btn btn-success text-white">
+                    <i class="far fa-question-circle me-1"></i>
+                    Tambah User
+                </a>
             </div>
         </div>
     </div>
 
+
     <div class="row">
+        @if (session('success'))
+            <div class="alert alert-primary">
+                {!! session('success') !!}
+            </div>
+        @endif
         <div class="col-12 mb-4">
             <div class="card border-0 shadow mb-4">
                 <div class="card-body">
+                    {{-- FORM FILTER DAN SEARCH --}}
+                    <form method="GET" action="{{ route('user.index') }}" class="mb-4">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label for="name" class="form-label">Filter Nama</label>
+                                <input type="text"
+                                       name="name"
+                                       class="form-control"
+                                       value="{{ request('name') }}"
+                                       placeholder="Cari nama user...">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="email" class="form-label">Filter Email</label>
+                                <input type="text"
+                                       name="email"
+                                       class="form-control"
+                                       value="{{ request('email') }}"
+                                       placeholder="Cari email user...">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="search" class="form-label">Search</label>
+                                <div class="input-group">
+                                    <input type="text"
+                                           name="search"
+                                           class="form-control"
+                                           value="{{ request('search') }}"
+                                           placeholder="Search..."
+                                           aria-label="Search">
+                                    <button type="submit" class="input-group-text" id="basic-addon2">
+                                        <svg class="icon icon-xxs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </button>
+                                    @if(request('search'))
+                                        <a href="{{ request()->fullUrlWithQuery(['search' => null]) }}" class="btn btn-outline-secondary ms-2" id="clear-search">Clear</a>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-md-3 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary me-2">
+                                    <i class="fas fa-filter me-1"></i> Terapkan
+                                </button>
+                                <a href="{{ route('user.index') }}" class="btn btn-secondary">
+                                    <i class="fas fa-refresh me-1"></i> Reset
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+
+
                     <div class="table-responsive">
                         <table id="table-user" class="table table-centered table-nowrap mb-0 rounded">
                             <thead class="thead-light">
                                 <tr>
-                                    <th class="border-0">Nama Lengkap</th>
+                                    <th class="border-0">Foto</th>
+                                    <th class="border-0">No</th>
+                                    <th class="border-0">Name</th>
                                     <th class="border-0">Email</th>
-                                    <th class="border-0">Password</th>
-
-                                    <th class="border-0 rounded-end">Action</th>
+                                    <th class="border-0">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($dataUser as $item)
-                                    <tr>
-                                        <td>{{ $item->name }}</td>
-                                        <td>{{ $item->email }}</td>
-                                        <td>{{ $item->password }}</td>
-
-                                        <td>
-                                            {{-- ini edit --}}
-                                            <a href=""
-                                                class="btn btn-info btn-sm">
-                                                <svg class="icon icon-xs me-2" data-slot="icon" fill="none"
-                                                    stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24"
-                                                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10">
-                                                    </path>
-                                                </svg>
-                                                Edit
-                                            </a>
-                                            {{-- ini delete --}}
-                                            <form action=""
-                                                method="POST" class="d-inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                    onclick="return confirm('Are you sure you want to delete this user?')">
+                                @if($dataUser->count() > 0)
+                                    @foreach ($dataUser as $item)
+                                        <tr>
+                                            <td>
+                                                @if($item->profile_picture)
+                                                    <img src="{{ Storage::url($item->profile_picture) }}"
+                                                         alt="Profile"
+                                                         width="50"
+                                                         height="50"
+                                                         class="rounded-circle object-fit-cover border">
+                                                @else
+                                                    <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center"
+                                                         style="width: 50px; height: 50px;">
+                                                        <span class="text-white fw-bold">{{ substr($item->name, 0, 1) }}</span>
+                                                    </div>
+                                                @endif
+                                            </td>
+                                            <td>{{ $loop->iteration + ($dataUser->currentPage() - 1) * $dataUser->perPage() }}</td>
+                                            <td>{{ $item->name }}</td>
+                                            <td>{{ $item->email }}</td>
+                                            <td>
+                                                <a href="{{ route('user.edit', $item->id) }}"
+                                                    class="btn btn-info btn-sm">
                                                     <svg class="icon icon-xs me-2" data-slot="icon" fill="none"
                                                         stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24"
                                                         xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0">
+                                                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10">
                                                         </path>
                                                     </svg>
-                                                    Delete
-                                                </button>
+                                                    Edit
+                                                </a>
+                                                <form action="{{ route('user.destroy', $item->id) }}"
+                                                    method="POST" style="display:inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus user ini?')">
+                                                        <svg class="icon icon-xs me-2" data-slot="icon" fill="none"
+                                                            stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24"
+                                                            xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0">
+                                                            </path>
+                                                        </svg>
+                                                        Hapus
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="5" class="text-center py-4">
+                                            @if(request()->has('search') || request()->has('name') || request()->has('email'))
+                                                Tidak ada data yang sesuai dengan pencarian Anda.
+                                            @else
+                                                Belum ada data user.
+                                            @endif
                                         </td>
                                     </tr>
-                                @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>
+
+                    {{-- PAGINATION --}}
+                    <div class="mt-3">
+                        {{ $dataUser->links('pagination::bootstrap-5') }}
+                    </div>
+
+
+                    {{-- INFO HASIL FILTER DAN SEARCH --}}
+                    @if(request()->has('name') || request()->has('email') || request()->has('search'))
+                        <div class="mt-2 text-muted">
+                            <small>
+                                Menampilkan hasil:
+                                @if(request('name')) Filter Nama: "{{ request('name') }}" @endif
+                                @if(request('name') && (request('email') || request('search'))) | @endif
+                                @if(request('email')) Filter Email: "{{ request('email') }}" @endif
+                                @if(request('email') && request('search')) | @endif
+                                @if(request('search')) Search: "{{ request('search') }}" @endif
+                            </small>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
-    {{-- end main content --}}
+    {{-- END MAIN CONTENT --}}
+
+
+    <style>
+        .object-fit-cover {
+            object-fit: cover;
+        }
+        .border {
+            border: 2px solid #dee2e6 !important;
+        }
+    </style>
 @endsection
