@@ -48,13 +48,15 @@ edit
                                 <!-- Name -->
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Name</label>
-                                    <input type="text" id="name" class="form-control" required name="name" value="{{ $dataUser->name }}">
+                                    <input type="text" id="name" class="form-control" required name="name"
+                                        value="{{ $dataUser->name }}">
                                 </div>
 
                                 <!-- Email -->
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
-                                    <input type="email" id="email" class="form-control" required name="email" value="{{ $dataUser->email }}">
+                                    <input type="email" id="email" class="form-control" required name="email"
+                                        value="{{ $dataUser->email }}">
                                 </div>
                             </div>
 
@@ -64,14 +66,12 @@ edit
                                     <label for="profile_picture" class="form-label">Foto Profil</label>
                                     <input type="file" id="profile_picture" class="form-control" name="profile_picture">
 
-                                    @if($dataUser->profile_picture)
+                                    @if ($dataUser->profile_picture)
                                         <div class="mt-3">
                                             <p class="mb-2">Foto Saat Ini:</p>
-                                            <img src="{{ Storage::url($dataUser->profile_picture) }}"
-                                                 alt="Profile"
-                                                 width="100"
-                                                 height="100"
-                                                 class="rounded-circle object-fit-cover border">
+                                            <img src="{{ Storage::url($dataUser->profile_picture) }}" alt="Profile"
+                                                width="100" height="100"
+                                                class="rounded-circle object-fit-cover border">
                                             <br>
                                             <small class="text-muted mt-2 d-block">{{ $dataUser->profile_picture }}</small>
                                         </div>
@@ -79,8 +79,9 @@ edit
                                         <div class="mt-3">
                                             <p class="mb-2">Foto Saat Ini:</p>
                                             <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center"
-                                                 style="width: 100px; height: 100px;">
-                                                <span class="text-white fw-bold" style="font-size: 2rem;">{{ substr($dataUser->name, 0, 1) }}</span>
+                                                style="width: 100px; height: 100px;">
+                                                <span class="text-white fw-bold"
+                                                    style="font-size: 2rem;">{{ substr($dataUser->name, 0, 1) }}</span>
                                             </div>
                                             <small class="text-muted mt-2 d-block">Belum ada foto profil</small>
                                         </div>
@@ -89,7 +90,8 @@ edit
 
                                 <!-- Password -->
                                 <div class="mb-3">
-                                    <label for="password" class="form-label">Password (Kosongkan jika tidak ingin mengubah)</label>
+                                    <label for="password" class="form-label">Password (Kosongkan jika tidak ingin
+                                        mengubah)</label>
                                     <input type="password" id="password" class="form-control" name="password">
                                 </div>
                             </div>
@@ -98,7 +100,33 @@ edit
                                 <!-- Password Confirmation -->
                                 <div class="mb-3">
                                     <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
-                                    <input type="password" id="password_confirmation" class="form-control" name="password_confirmation">
+                                    <input type="password" id="password_confirmation" class="form-control"
+                                        name="password_confirmation">
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="role" class="block text-sm font-medium text-gray-700">Role
+                                        Pengguna</label>
+                                    <select name="role" id="role"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                        required>
+                                        <option value="" disabled>Pilih Role</option>
+
+                                        @php
+                                            // Ambil data role saat ini atau dari old() jika ada error validasi
+                                            $currentRole = old('role', $dataUser->role ?? '');
+                                        @endphp
+
+                                        <option value="Super Admin" {{ $currentRole == 'Super Admin' ? 'selected' : '' }}>
+                                            Super Admin</option>
+                                        <option value="Pelanggan" {{ $currentRole == 'Pelanggan' ? 'selected' : '' }}>
+                                            Pelanggan</option>
+                                        <option value="Mitra" {{ $currentRole == 'Mitra' ? 'selected' : '' }}>Mitra
+                                        </option>
+                                    </select>
+                                    @error('role')
+                                        <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 <!-- Buttons -->
@@ -119,6 +147,7 @@ edit
         .object-fit-cover {
             object-fit: cover;
         }
+
         .border {
             border: 2px solid #dee2e6 !important;
         }

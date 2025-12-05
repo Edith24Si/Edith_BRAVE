@@ -16,11 +16,14 @@ class UserController extends Controller
         $searchableColumns = ['name', 'email'];
 
         $data['dataUser'] = User::filter($request, $filterableColumns)
-                                ->search($request, $searchableColumns)
-                                ->paginate(10)
-                                ->withQueryString();
+            ->search($request, $searchableColumns)
+            ->paginate(10)
+            ->withQueryString();
+
+        $users = User::all();
 
         return view('admin.user.index', $data);
+        return view('user.index', compact('users'));
     }
 
     public function create()
@@ -31,20 +34,21 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|confirmed',
-            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'name'            => 'required',
+            'email'           => 'required|email|unique:users',
+            'password'        => 'required|confirmed',
+            'role'            => 'required|string|in:Super Admin,Pelanggan,Mitra',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $data = $request->all();
+        $data             = $request->all();
         $data['password'] = Hash::make($request->password);
 
         // Handle profile picture upload
         if ($request->hasFile('profile_picture')) {
-            $image = $request->file('profile_picture');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $path = $image->storeAs('profile_pictures', $imageName, 'public');
+            $image                   = $request->file('profile_picture');
+            $imageName               = time() . '.' . $image->getClientOriginalExtension();
+            $path                    = $image->storeAs('profile_pictures', $imageName, 'public');
             $data['profile_picture'] = $path;
         }
 
@@ -64,14 +68,16 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'password' => 'nullable|confirmed',
-            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'name'            => 'required',
+            'email'           => 'required|email|unique:users,email,' . $id,
+            'password'        => 'nullable|confirmed',
+            'role'            => 'required|string|in:Super Admin,Pelanggan,Mitra',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $user->name = $request->name;
+        $user->name  = $request->name;
         $user->email = $request->email;
+        $user->role  = $request->role;
 
         if ($request->password) {
             $user->password = Hash::make($request->password);
@@ -84,9 +90,9 @@ class UserController extends Controller
                 Storage::disk('public')->delete($user->profile_picture);
             }
 
-            $image = $request->file('profile_picture');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $path = $image->storeAs('profile_pictures', $imageName, 'public');
+            $image                 = $request->file('profile_picture');
+            $imageName             = time() . '.' . $image->getClientOriginalExtension();
+            $path                  = $image->storeAs('profile_pictures', $imageName, 'public');
             $user->profile_picture = $path;
         }
 

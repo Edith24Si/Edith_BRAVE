@@ -47,13 +47,15 @@ create user
                                 <!-- Name -->
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Name</label>
-                                    <input type="text" id="name" class="form-control" required name="name" value="{{ old('name') }}">
+                                    <input type="text" id="name" class="form-control" required name="name"
+                                        value="{{ old('name') }}">
                                 </div>
 
                                 <!-- Email -->
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
-                                    <input type="email" id="email" class="form-control" required name="email" value="{{ old('email') }}">
+                                    <input type="email" id="email" class="form-control" required name="email"
+                                        value="{{ old('email') }}">
                                 </div>
                             </div>
 
@@ -76,7 +78,26 @@ create user
                                 <!-- Password Confirmation -->
                                 <div class="mb-3">
                                     <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
-                                    <input type="password" id="password_confirmation" class="form-control" name="password_confirmation" required>
+                                    <input type="password" id="password_confirmation" class="form-control"
+                                        name="password_confirmation" required>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="role" class="block text-sm font-medium text-gray-700">Role
+                                        Pengguna</label>
+                                    <select name="role" id="role"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                        required>
+                                        <option value="" disabled selected>Pilih Role</option>
+                                        <option value="Super Admin" {{ old('role') == 'Super Admin' ? 'selected' : '' }}>
+                                            Super Admin</option>
+                                        <option value="Pelanggan" {{ old('role') == 'Pelanggan' ? 'selected' : '' }}>
+                                            Pelanggan</option>
+                                        <option value="Mitra" {{ old('role') == 'Mitra' ? 'selected' : '' }}>Mitra</option>
+                                    </select>
+                                    @error('role')
+                                        <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 <!-- Buttons -->

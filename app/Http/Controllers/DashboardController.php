@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -12,6 +11,11 @@ class DashboardController extends Controller
     public function index()
     {
         return view('admin.pelanggan.dashboard');
+        
+        if (! Auth::check()) {
+            //Redirect ke halaman login
+        }
+
     }
 
     /**

@@ -48,36 +48,30 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <label for="name" class="form-label">Filter Nama</label>
-                                <input type="text"
-                                       name="name"
-                                       class="form-control"
-                                       value="{{ request('name') }}"
-                                       placeholder="Cari nama user...">
+                                <input type="text" name="name" class="form-control" value="{{ request('name') }}"
+                                    placeholder="Cari nama user...">
                             </div>
                             <div class="col-md-3">
                                 <label for="email" class="form-label">Filter Email</label>
-                                <input type="text"
-                                       name="email"
-                                       class="form-control"
-                                       value="{{ request('email') }}"
-                                       placeholder="Cari email user...">
+                                <input type="text" name="email" class="form-control" value="{{ request('email') }}"
+                                    placeholder="Cari email user...">
                             </div>
                             <div class="col-md-3">
                                 <label for="search" class="form-label">Search</label>
                                 <div class="input-group">
-                                    <input type="text"
-                                           name="search"
-                                           class="form-control"
-                                           value="{{ request('search') }}"
-                                           placeholder="Search..."
-                                           aria-label="Search">
+                                    <input type="text" name="search" class="form-control"
+                                        value="{{ request('search') }}" placeholder="Search..." aria-label="Search">
                                     <button type="submit" class="input-group-text" id="basic-addon2">
-                                        <svg class="icon icon-xxs" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+                                        <svg class="icon icon-xxs" fill="currentColor" viewBox="0 0 20 20"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                                clip-rule="evenodd"></path>
                                         </svg>
                                     </button>
-                                    @if(request('search'))
-                                        <a href="{{ request()->fullUrlWithQuery(['search' => null]) }}" class="btn btn-outline-secondary ms-2" id="clear-search">Clear</a>
+                                    @if (request('search'))
+                                        <a href="{{ request()->fullUrlWithQuery(['search' => null]) }}"
+                                            class="btn btn-outline-secondary ms-2" id="clear-search">Clear</a>
                                     @endif
                                 </div>
                             </div>
@@ -101,33 +95,46 @@
                                     <th class="border-0">No</th>
                                     <th class="border-0">Name</th>
                                     <th class="border-0">Email</th>
+                                    <th class="border-0">Role</th> <!-- BARU: Tambahkan Header Role -->
                                     <th class="border-0">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @if($dataUser->count() > 0)
+                                @if ($dataUser->count() > 0)
                                     @foreach ($dataUser as $item)
                                         <tr>
                                             <td>
-                                                @if($item->profile_picture)
-                                                    <img src="{{ Storage::url($item->profile_picture) }}"
-                                                         alt="Profile"
-                                                         width="50"
-                                                         height="50"
-                                                         class="rounded-circle object-fit-cover border">
+                                                @if ($item->profile_picture)
+                                                    <img src="{{ Storage::url($item->profile_picture) }}" alt="Profile"
+                                                        width="50" height="50"
+                                                        class="rounded-circle object-fit-cover border">
                                                 @else
                                                     <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center"
-                                                         style="width: 50px; height: 50px;">
-                                                        <span class="text-white fw-bold">{{ substr($item->name, 0, 1) }}</span>
+                                                        style="width: 50px; height: 50px;">
+                                                        <span
+                                                            class="text-white fw-bold">{{ substr($item->name, 0, 1) }}</span>
                                                     </div>
                                                 @endif
                                             </td>
-                                            <td>{{ $loop->iteration + ($dataUser->currentPage() - 1) * $dataUser->perPage() }}</td>
+                                            <td>{{ $loop->iteration + ($dataUser->currentPage() - 1) * $dataUser->perPage() }}
+                                            </td>
                                             <td>{{ $item->name }}</td>
                                             <td>{{ $item->email }}</td>
+
+                                            {{-- PERBAIKAN: Mengganti $user menjadi $item --}}
                                             <td>
-                                                <a href="{{ route('user.edit', $item->id) }}"
-                                                    class="btn btn-info btn-sm">
+                                                <span
+                                                    class="badge
+                                                    @if ($item->role == 'Super Admin') bg-primary
+                                                    @elseif($item->role == 'Pelanggan') bg-info
+                                                    @elseif($item->role == 'Mitra') bg-warning
+                                                    @else bg-secondary @endif">
+                                                    {{ $item->role ?? 'N/A' }}
+                                                </span>
+                                            </td>
+
+                                            <td>
+                                                <a href="{{ route('user.edit', $item->id) }}" class="btn btn-info btn-sm">
                                                     <svg class="icon icon-xs me-2" data-slot="icon" fill="none"
                                                         stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24"
                                                         xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -137,11 +144,12 @@
                                                     </svg>
                                                     Edit
                                                 </a>
-                                                <form action="{{ route('user.destroy', $item->id) }}"
-                                                    method="POST" style="display:inline">
+                                                <form action="{{ route('user.destroy', $item->id) }}" method="POST"
+                                                    style="display:inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus user ini?')">
+                                                    <button type="submit" class="btn btn-danger btn-sm"
+                                                        onclick="return confirm('Yakin ingin menghapus user ini?')">
                                                         <svg class="icon icon-xs me-2" data-slot="icon" fill="none"
                                                             stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24"
                                                             xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -157,8 +165,8 @@
                                     @endforeach
                                 @else
                                     <tr>
-                                        <td colspan="5" class="text-center py-4">
-                                            @if(request()->has('search') || request()->has('name') || request()->has('email'))
+                                        <td colspan="6" class="text-center py-4"> <!-- Diperluas menjadi colspan="6" -->
+                                            @if (request()->has('search') || request()->has('name') || request()->has('email'))
                                                 Tidak ada data yang sesuai dengan pencarian Anda.
                                             @else
                                                 Belum ada data user.
@@ -177,15 +185,25 @@
 
 
                     {{-- INFO HASIL FILTER DAN SEARCH --}}
-                    @if(request()->has('name') || request()->has('email') || request()->has('search'))
+                    @if (request()->has('name') || request()->has('email') || request()->has('search'))
                         <div class="mt-2 text-muted">
                             <small>
                                 Menampilkan hasil:
-                                @if(request('name')) Filter Nama: "{{ request('name') }}" @endif
-                                @if(request('name') && (request('email') || request('search'))) | @endif
-                                @if(request('email')) Filter Email: "{{ request('email') }}" @endif
-                                @if(request('email') && request('search')) | @endif
-                                @if(request('search')) Search: "{{ request('search') }}" @endif
+                                @if (request('name'))
+                                    Filter Nama: "{{ request('name') }}"
+                                @endif
+                                @if (request('name') && (request('email') || request('search')))
+                                    |
+                                @endif
+                                @if (request('email'))
+                                    Filter Email: "{{ request('email') }}"
+                                @endif
+                                @if (request('email') && request('search'))
+                                    |
+                                @endif
+                                @if (request('search'))
+                                    Search: "{{ request('search') }}"
+                                @endif
                             </small>
                         </div>
                     @endif
@@ -200,6 +218,7 @@
         .object-fit-cover {
             object-fit: cover;
         }
+
         .border {
             border: 2px solid #dee2e6 !important;
         }
